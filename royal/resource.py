@@ -61,8 +61,10 @@ class Base(object):
         return find_root(self)
 
     def resource_url(self, resource, **query_params):
-        kw = {'query': query_params}
-        return self.root.request.resource_url(resource, **kw)
+        return self.root.request.resource_url(
+            resource,
+            query=query_params,
+            route_name=self.root.route_name)
 
     def url(self, **query_params):
         return self.resource_url(self, **query_params)
@@ -90,6 +92,7 @@ class Base(object):
 class Root(Base):
     children = {}
     request = None
+    route_name = ''
 
     def __init__(self, request):
         super(Root, self).__init__('', None)
